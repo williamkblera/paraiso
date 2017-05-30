@@ -1,0 +1,16 @@
+{% load staticfiles %}
+
+<div>
+  <h1>{{ cliente.nome }}</h1>
+</h1>
+<div>
+  <h2>{{ cliente.get_tipo_pessoa_display}}</h2>
+</div>
+<div>
+  {% for contato in contatos %}
+    <h3>{{ contato.get_tipo_contato_display }} : {{ contato.contato}}</h3>
+    <p>{{ contato.descricao}}</p>
+  {% endfor %}
+
+  <a href=" {% url 'cliente:lista_clientes' %}">Lista Clientes</a>
+</div>

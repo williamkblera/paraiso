@@ -1,0 +1,43 @@
+{% extends 'hotel/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+  <title>Pousada Paraíso - Hotel</title>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  Menu
+</div>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <h1 class="page-header text-center">Reserva</h1>
+  </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <a href="#">
+            <h3 class="panel-title">
+              {{reserva.cliente.nome}}
+              <span class="glyphicon glyphicon-pencil pull-right"></span>
+            </h3>
+          </a>
+
+        </div>
+        <div class="panel-body">
+          <p>Data da Reserva : {{reserva.data_reserva}}</p>
+          <p>Status : {{reserva.get_status_display}}</p>
+          {% for quarto in quartos %}
+            <p>Apartamento: {{ quarto }}</p>
+            <p>Entrada: {{ quarto.entrada }}</p>
+            <p>Saida: {{ quarto.saida }}</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+</div>
+{% endblock %}

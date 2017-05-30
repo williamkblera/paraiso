@@ -1,0 +1,64 @@
+{% load static %}
+<html>
+<head>
+
+  <link href=" {% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+  {% block title %}
+    <title>Pousada Paraíso</title>
+  {% endblock title %}
+</head>
+
+<body>
+  <div class="container">
+    {% block content %}
+
+
+    {% endblock %}
+  </div>
+  {% block javascript %}
+    <!-- Latest JQuery -->
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    <!-- Bootstrap Date-Picker Plugin -->
+    <script type="text/javascript" src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker3.min.css' %}"/>
+
+    <script>
+      $(document).ready(function(){
+             $("#add-contato").click(function(ev) {
+                 ev.preventDefault();
+                 var count = $('#contato').children().length;
+                 var tmplMarkup = $("#contato-novo").html();
+                 var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+                 $("div#contato").append(compiledTmpl);
+
+                 // update form count
+                 $('#id_product-TOTAL_FORMS').attr('value', count + 1);
+
+                 // some animate to scroll to view our new form
+                 $('html, body').animate({
+                     scrollTop: $("#add-contato").position().top-200
+                 }, 800);
+             });
+         });
+    </script>
+    <script>
+        $(document).ready(function(){
+          var date_input=$('input[name="data"]'); //our date input has the name "date"
+          var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+          var options={
+            format: "dd/mm/yyyy",
+            todayHighlight: true,
+            language: "pt-BR",
+            autoclose: true,
+            // todayBtn: true,
+          };
+          date_input.datepicker(options);
+        })
+    </script>
+  {% endblock javascript %}
+</body>

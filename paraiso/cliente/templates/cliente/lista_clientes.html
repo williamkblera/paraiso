@@ -1,4 +1,91 @@
+{% extends 'core/base.html' %}
 {% load staticfiles %}
+
+{% block content %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog"
+    aria-labelledby="modalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabel">Excluir {{cliente}}</h4>
+                </div> <!-- /.modal-header -->
+                <div class="modal-body">
+                    Deseja relmente excluir este cliente?
+                </div> <!-- /.modal-body -->
+                <div class="modal-footer">
+                    <a href="" type="button" class="btn btn-primary">
+                        Sim
+                    </a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Não
+                    </button>
+                </div> <!-- /.modal-footer -->
+            </div> <!-- /.modal-content -->
+        </div> <!-- /.modal-dialog -->
+    </div> <!-- /.modal -->
+
+    <div id="top" class="row">
+        <div class="col-md-3">
+            <h2>Clientes</h2>
+        </div>
+
+        <div class="col-md-6">
+            <div class="input-group h2">
+                <input name="data[search]" class="form-control" id="search" type="text" placeholder="Pesquisar Clientes">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <a href=" {% url 'clientes:novo_cliente' %}" class="btn btn-primary pull-right h2">
+                Novo Cliente
+            </a>
+        </div>
+     </div> <!-- /#top -->
+
+     <hr />
+     <div id="list" class="row">
+         <div class="table-responsive col-md-12">
+             <table class="table table-striped" cellspacing="0" cellpadding="0">
+                 <thead>
+                     <tr>
+                         <th>Nome</th>
+                         <th>Tipo</th>
+                         <th>Data Cadastro</th>
+                         <th class="actions">Ações</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                    {% for cliente in clientes %}
+                        <td>{{cliente}}</td>
+                        <td>{{cliente.get_tipo_pessoa_display}}</td>
+                        <td>{{cliente.data_criacao}}</td>
+                        <td class="actions">
+                            <a class="btn btn-success btn-xs" href="{% url 'clientes:cliente' pk=cliente.pk %}">Visualizar</a>
+                            <a class="btn btn-warning btn-xs" href="{% url 'clientes:editar_cliente' pk=cliente.pk  %}">Editar</a>
+                            <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal">Excluir</a>
+                        </td>
+                    {% endfor %}
+                 </tbody>
+             </table>
+         </div>
+     </div> <!-- /#list -->
+
+     <div id="bottom" class="row">
+
+     </div> <!-- /#bottom -->
+{% endblock %}
+
+
+
 
 <div>
   <h1>Clientes</h1>
@@ -9,7 +96,7 @@
 <div>
 {% for cliente in clientes %}
   <div>
-    <a href="cliente/{{cliente.id}}">{{cliente}}</a>
+    <a href="{% url 'clientes:cliente' pk=cliente.id %}">{{cliente}}</a>
   </div>
 
 {% endfor %}

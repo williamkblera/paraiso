@@ -18,6 +18,64 @@ def cliente_detalhes(request, pk):
     contatos = Contato.objects.filter(cliente=cliente)
     return render(request,'cliente/cliente.html', {'cliente': cliente, 'contatos':contatos})
 
+def deletar_cliente(request, pk):
+    cliente = get_object_or_404(Cliente, pk=pk)
+    cliente.delete()
+    return HttpResponseRedirect('/clientes/')
+
+def editar_cliente(request, pk):
+    cliente = get_object_or_404(Cliente, pk=pk)
+    contatos = Contato.objects.filter(cliente=cliente)
+
+    clienteform = cliente
+    contato_cliente_formset = inlineformset_factory(
+        Cliente,
+        Contato,
+        form=ContatoForm,
+        extra=1,
+        can_delete=True,
+        min_num=1,
+        validate_min=True
+    )
+
+    if request.method == "POST":
+        forms = ClienteForm(
+            request.POST,
+            request.FILES,
+            instance=clienteform,
+            prefix='main'
+        )
+        formset = contato_cliente_formset(
+            request.POST,
+            request.FILES,
+            instance=clienteform,
+            prefix='product'
+        )
+
+        if forms.is_valid() and formset.is_valid():
+            forms = forms.save(commit=False)
+            forms.save()
+            formset.save()
+            return HttpResponseRedirect('/clientes/')
+
+    else:
+        forms = ClienteForm(
+            instance=clienteform,
+            prefix='main'
+        )
+        formset = contato_cliente_formset(
+            instance=clienteform,
+            prefix='product'
+        )
+
+    context = {
+        'cliente':cliente,
+        'forms':forms,
+        'formset': formset,
+    }
+
+    return render(request, 'cliente/editar_cliente.html', context)
+
 
 def novo_cliente(request):
     clienteform = Cliente()
@@ -49,7 +107,7 @@ def novo_cliente(request):
             forms = forms.save(commit=False)
             forms.save()
             formset.save()
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/clientes/')
 
     else:
         forms = ClienteForm(
@@ -66,4 +124,4 @@ def novo_cliente(request):
         'formset': formset,
     }
 
-    return render(request, 'cliente/novo_cliente.html', context)
+    return render(request, 'cliente/add_cliente.html', context)

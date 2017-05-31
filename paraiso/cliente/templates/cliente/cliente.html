@@ -1,16 +1,79 @@
+{% extends 'core/base.html' %}
 {% load staticfiles %}
 
-<div>
-  <h1>{{ cliente.nome }}</h1>
-</h1>
-<div>
-  <h2>{{ cliente.get_tipo_pessoa_display}}</h2>
-</div>
-<div>
-  {% for contato in contatos %}
-    <h3>{{ contato.get_tipo_contato_display }} : {{ contato.contato}}</h3>
-    <p>{{ contato.descricao}}</p>
-  {% endfor %}
+{% block content %}
+    <!-- Modal -->
+    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog"
+    aria-labelledby="modalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabel">Excluir {{cliente}}</h4>
+                </div> <!-- /.modal-header -->
+                <div class="modal-body">
+                    Deseja relmente excluir este cliente?
+                </div> <!-- /.modal-body -->
+                <div class="modal-footer">
+                    <a href="{% url 'clientes:deletar_cliente' pk=cliente.pk %}" type="button" class="btn btn-primary">
+                        Sim
+                    </a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Não
+                    </button>
+                </div> <!-- /.modal-footer -->
+            </div> <!-- /.modal-content -->
+        </div> <!-- /.modal-dialog -->
+    </div> <!-- /.modal -->
 
-  <a href=" {% url 'cliente:lista_clientes' %}">Lista Clientes</a>
-</div>
+    <h3 class="page-header">{{cliente}}</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <p><strong>Tipo:</strong></p>
+            <p>{{ cliente.get_tipo_pessoa_display}}</p>
+        </div>
+        <div class="col-md-6">
+            <p><strong>Data de Cadastro:</strong></p>
+            <p>{{ cliente.data_criacao}}</p>
+        </div>
+    </div><!-- .row -->
+    <h3 class="page-header">Contatos</h3>
+    <div class="row">
+
+        {% for contato in contatos %}
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {{ contato.get_tipo_contato_display }}
+                    </div>
+                    <div class="panel-body">
+                        <p>{{ contato.contato}}</p>
+                        {% if contato.descricao %}
+                            <p>{{ contato.descricao}}</p>
+                        {% else %}
+                            <p>&nbsp;</p>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        {% endfor %}
+    </div> <!-- .row -->
+    <hr />
+    <div id="actions" class="row">
+        <div class="col-md-12">
+            <a href="{% url 'clientes:lista_clientes' %}" class="btn btn-default">Voltar</a>
+            <a href="{% url 'clientes:editar_cliente' pk=cliente.pk %}" class="btn btn-primary">
+                Editar
+            </a>
+            <a href="#" class="btn btn-default" data-toggle="modal" data-target="#delete-modal">
+                Excluir
+            </a>
+
+
+        </div>
+    </div>
+
+{% endblock %}

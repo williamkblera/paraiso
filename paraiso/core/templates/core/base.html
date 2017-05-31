@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block title %}
 
-      <title>Crud com Bootstrap</title>
+      <title>Paraíso Admin</title>
 
     {% endblock %}
 
@@ -28,7 +28,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Home</a>
+            <a class="navbar-brand" href="{%url 'core:home' %}">Home</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -45,50 +45,18 @@
       {% block content %}
           <h3 class="page-header">Template Inicial</h3>
       {% endblock %}
-    </div>
+  </div> <!--/div main -->
 
-    {% block script %}
+
     <!-- Latest JQuery -->
     <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
-    <script>
-      $(document).ready(function(){
-             $("#add-contato").click(function(ev) {
-                 ev.preventDefault();
-                 var count = $('#contato').children().length;
-                 var tmplMarkup = $("#contato-novo").html();
-                 var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
-                 $("div#contato").append(compiledTmpl);
+    {% block script %}
 
-                 // update form count
-                 $('#id_product-TOTAL_FORMS').attr('value', count + 1);
-
-                 // some animate to scroll to view our new form
-                 $('html, body').animate({
-                     scrollTop: $("#add-contato").position().top-200
-                 }, 800);
-             });
-         });
-    </script>
     {% endblock %}
 
   </body>
-</html>
-
-
-
-
-
-
-<body>
-
-  <div class="container">
-
-  </div>
-
-
-</body>
 </html>

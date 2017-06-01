@@ -85,5 +85,10 @@
              }, 800);
          });
      });
+
+     $(document).ready(function(){
+        $("#id_product-0-contato").mask("(99) 9 9999-9999");
+        var count = $('#contato').children().length;
+     });
 </script>
 {% endblock %}

@@ -115,5 +115,23 @@ aria-labelledby="modalLabel">
              }, 800);
          });
      });
+
+     $(document).ready(function(){
+        // $("#id_product-0-contato").mask("(99) 9 9999-9999");
+        $("#id_product-0-contato").mask("999.999.999-67");
+        // var count = $('#contato').children().length;
+        // alert(count)
+        $("#contato").each(function(){
+            // alert($(this).find('option:selected').val());
+            var temp = $(this).find('option:selected').val()
+            if(temp =='C') {
+                $(this).find('input').mask("(99) 9 9999-9999")
+            } else if(temp == 'W') {
+                $(this).find('input').mask("999.999.999-67")
+                // alert($(this).find('input').val())
+            }
+        });
+
+     });
 </script>
 {% endblock %}

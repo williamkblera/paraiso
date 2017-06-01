@@ -18,8 +18,8 @@ class ContatoForm(forms.ModelForm):
         model = Contato
         exclude = ['cliente']
         widgets = {
-            'tipo_contato':forms.Select(attrs={'class':'form-control'}),
-            'contato':forms.TextInput(attrs={'class':'form-control',
+            'tipo_contato':forms.Select(attrs={'class':'form-control tipo_contato'}),
+            'contato':forms.TextInput(attrs={'class':'form-control contato',
                                                 'size':'24'}),
             'descricao':forms.Textarea(attrs={'class':'form-control',
                                                 'rows':'3',

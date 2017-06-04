@@ -2,13 +2,25 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.forms.models import inlineformset_factory
 from django.http.response import HttpResponseRedirect
+from django.db.models import Q
 
-from .models import Cliente, Contato
-from .forms import ClienteForm, ContatoForm
+from .models import Cliente, Contato, Documento
+from .forms import ClienteForm, ContatoForm, DocumentoForm
 
 def lista_clientes(request):
-    # clientes = Cliente.objects.all()
-    clientes = Cliente.objects.all().order_by('nome')
+    if request.method == "POST":
+        busca = request.POST.get('busca')
+        if busca == "":
+            clientes = Cliente.objects.all().order_by('nome')
+        else:
+            clientes = Cliente.objects.filter(
+                    Q(nome__icontains=busca)|
+                    Q(contatos__contato__icontains=busca)|
+                    Q(documentos__documento__icontains=busca)
+            )
+        # clientes = Cliente.objects.filter(nome__icontains=busca)
+    else:
+        clientes = Cliente.objects.all().order_by('nome')
     return render(request, 'cliente/lista_clientes.html', {'clientes': clientes})
 
 def cliente_detalhes(request, pk):
@@ -16,7 +28,13 @@ def cliente_detalhes(request, pk):
     # clientes = Cliente.objects.all().order_by('nome')
     cliente = get_object_or_404(Cliente, pk=pk)
     contatos = Contato.objects.filter(cliente=cliente)
-    return render(request,'cliente/cliente.html', {'cliente': cliente, 'contatos':contatos})
+    documentos = Documento.objects.filter(cliente=cliente)
+    context = {
+        'cliente': cliente,
+        'contatos': contatos,
+        'documentos': documentos,
+    }
+    return render(request,'cliente/cliente.html', context)
 
 def deletar_cliente(request, pk):
     cliente = get_object_or_404(Cliente, pk=pk)
@@ -26,6 +44,7 @@ def deletar_cliente(request, pk):
 def editar_cliente(request, pk):
     cliente = get_object_or_404(Cliente, pk=pk)
     contatos = Contato.objects.filter(cliente=cliente)
+    documentos = Documento.objects.filter(cliente=cliente)
 
     clienteform = cliente
     contato_cliente_formset = inlineformset_factory(
@@ -34,8 +53,17 @@ def editar_cliente(request, pk):
         form=ContatoForm,
         extra=1,
         can_delete=True,
-        min_num=1,
-        validate_min=True
+        min_num=0,
+        # validate_min=True
+    )
+    documento_cliente_formset = inlineformset_factory(
+        Cliente,
+        Documento,
+        form=DocumentoForm,
+        extra=1,
+        can_delete=True,
+        min_num=0,
+        # validate_min=True
     )
 
     if request.method == "POST":
@@ -51,11 +79,18 @@ def editar_cliente(request, pk):
             instance=clienteform,
             prefix='product'
         )
+        documentoformset = documento_cliente_formset(
+            request.POST,
+            request.FILES,
+            instance=clienteform,
+            prefix='documentos'
+        )
 
-        if forms.is_valid() and formset.is_valid():
+        if forms.is_valid() and formset.is_valid() and documentoformset.is_valid():
             forms = forms.save(commit=False)
             forms.save()
             formset.save()
+            documentoformset.save()
             return HttpResponseRedirect('/clientes/')
 
     else:
@@ -67,11 +102,16 @@ def editar_cliente(request, pk):
             instance=clienteform,
             prefix='product'
         )
+        documentoformset = documento_cliente_formset(
+            instance=clienteform,
+            prefix='documentos'
+        )
 
     context = {
         'cliente':cliente,
         'forms':forms,
         'formset': formset,
+        'documentoformset': documentoformset,
     }
 
     return render(request, 'cliente/editar_cliente.html', context)
@@ -85,8 +125,17 @@ def novo_cliente(request):
         form=ContatoForm,
         extra=1,
         can_delete=False,
-        min_num=1,
-        validate_min=True
+        min_num=0,
+        # validate_min=True
+    )
+    documento_cliente_formset = inlineformset_factory(
+        Cliente,
+        Documento,
+        form=DocumentoForm,
+        extra=1,
+        can_delete=True,
+        min_num=0,
+        # validate_min=True
     )
 
     if request.method == "POST":
@@ -100,13 +149,20 @@ def novo_cliente(request):
             request.POST,
             request.FILES,
             instance=clienteform,
-            prefix='product'
+            prefix='contatos'
+        )
+        documentoformset = documento_cliente_formset(
+            request.POST,
+            request.FILES,
+            instance=clienteform,
+            prefix='documentos'
         )
 
-        if forms.is_valid() and formset.is_valid():
+        if forms.is_valid() and formset.is_valid() and documentoformset.is_valid():
             forms = forms.save(commit=False)
             forms.save()
             formset.save()
+            documentoformset.save()
             return HttpResponseRedirect('/clientes/')
 
     else:
@@ -116,12 +172,17 @@ def novo_cliente(request):
         )
         formset = contato_cliente_formset(
             instance=clienteform,
-            prefix='product'
+            prefix='contatos'
+        )
+        documentoformset = documento_cliente_formset(
+            instance=clienteform,
+            prefix='documentos'
         )
 
     context = {
         'forms':forms,
         'formset': formset,
+        'documentoformset':documentoformset,
     }
 
     return render(request, 'cliente/add_cliente.html', context)

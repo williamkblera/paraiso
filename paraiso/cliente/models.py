@@ -26,10 +26,27 @@ class Contato(models.Model):
         ('O', 'Outro')
     )
 
-    cliente = models.ForeignKey(Cliente)
+    cliente = models.ForeignKey(Cliente, related_name="contatos")
     tipo_contato = models.CharField(max_length=1, choices=TIPO_CONTATO, default='C')
     contato = models.CharField(max_length=200)
     descricao = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.get_tipo_contato_display() + ": " + self.contato
+
+
+class Documento(models.Model):
+    TIPO_DOCUMENTO = (
+        ('C', 'CPF'),
+        ('R', 'RG'),
+        ('M', 'Carteira de Motorista'),
+        ('O', 'Outro'),
+    )
+
+    cliente = models.ForeignKey(Cliente, related_name='documentos')
+    tipo_documento = models.CharField(max_length=1, choices=TIPO_DOCUMENTO, default='C')
+    documento = models.CharField(max_length=100)
+    descricao = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.get_tipo_documento_display() + ": " + self.contato

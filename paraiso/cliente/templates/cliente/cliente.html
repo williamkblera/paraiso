@@ -61,6 +61,28 @@
             </div>
         {% endfor %}
     </div> <!-- .row -->
+    <h3 class="page-header">Documentos</h3>
+    <div class="row">
+
+        {% for documento in documentos %}
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {{ documento.get_tipo_documento_display }}
+                    </div>
+                    <div class="panel-body">
+                        <p>{{ documento.documento}}</p>
+                        {% if documento.descricao %}
+                            <p>{{ contato.descricao}}</p>
+                        {% else %}
+                            <p>&nbsp;</p>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        {% endfor %}
+    </div> <!-- .row -->
     <hr />
     <div id="actions" class="row">
         <div class="col-md-12">

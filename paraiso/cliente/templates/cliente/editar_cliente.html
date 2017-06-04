@@ -73,6 +73,35 @@ aria-labelledby="modalLabel">
             </div>
         </div>
         <hr />
+
+        {{ documentoformset.management_form }}
+
+        <legend class="lead">Documentos</legend>
+        <div class="row">
+            <div id="documento" class="form-inline form-group">
+              {% for item in documentoformset %}
+                <div id="documento-{{ forloop.counter0 }}" class="col-md-6">
+                    {% for elemento in item %}
+                        {{elemento}}
+                        {% for error in elemento.errors %}
+                            <small style="color: red">{{ error }}</small>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+              {% endfor %}
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6" style="margin-top: 50px">
+                <a class="btn btn-info" id="add-documento">
+                  <i class="fa fa-plus"></i>
+                   Add Documento
+                </a>
+            </div>
+        </div>
+        <hr />
+
         <div id="actions" class="row">
             <div class="col-md-12">
                 <button type="submit" class="btn btn-primary">Salvar</button>
@@ -91,8 +120,15 @@ aria-labelledby="modalLabel">
             {% endfor %}
 
         </div>
+    </script>
 
+    <script type="text/html" id="documento-novo">
+        <div id="documento-__prefix__" class="col-md-6" style="margin-top: 10px">
+            {% for item in documentoformset.empty_form %}
+                {{item}}
+            {% endfor %}
 
+        </div>
     </script>
 {% endblock %}
 
@@ -114,23 +150,60 @@ aria-labelledby="modalLabel">
                  scrollTop: $("#add-contato").position().top-200
              }, 800);
          });
+
+         $("#add-documento").click(function(ev) {
+             ev.preventDefault();
+             var count = $('#documento').children().length;
+             var tmplMarkup = $("#documento-novo").html();
+             var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+             $("div#documento").append(compiledTmpl);
+
+             // update form count
+             $('#id_documento-TOTAL_FORMS').attr('value', count + 1);
+
+             // some animate to scroll to view our new form
+             $('html, body').animate({
+                 scrollTop: $("#add-documento").position().top-200
+             }, 800);
+         });
+
      });
 
      $(document).ready(function(){
-        // $("#id_product-0-contato").mask("(99) 9 9999-9999");
-        $("#id_product-0-contato").mask("999.999.999-67");
-        // var count = $('#contato').children().length;
-        // alert(count)
-        $("#contato").each(function(){
-            // alert($(this).find('option:selected').val());
-            var temp = $(this).find('option:selected').val()
-            if(temp =='C') {
-                $(this).find('input').mask("(99) 9 9999-9999")
-            } else if(temp == 'W') {
-                $(this).find('input').mask("999.999.999-67")
-                // alert($(this).find('input').val())
-            }
+
+      $(".tipo_contato").each(function(){
+        var tipoContato = $(this).val();
+        if(tipoContato == 'F'){ // Telefone fixo
+          $(this).siblings('.contato').mask("(99) 9999-9999");
+        } else if (tipoContato == 'C') { // Celular
+          $(this).siblings('.contato').mask("(99) 9 9999-9999");
+        } else if (tipoContato == 'W') { // Whatsapp
+          $(this).siblings('.contato').mask("(99) 9 9999-9999");
+        } else if (tipoContato == 'E') { // E-mail
+          $(this).siblings('.contato').unmask();
+        } else { // Outro tipo de contato
+          $(this).siblings('.contato').unmask();
+        }
+      });
+
+      $(".tipo_contato").each(function(){
+        $(this).change(function(){
+          var tipoContato = $(this).val();
+          if(tipoContato == 'F'){ // Telefone fixo
+            $(this).siblings('.contato').mask("(99) 9999-9999");
+          } else if (tipoContato == 'C') { // Celular
+            $(this).siblings('.contato').mask("(99) 9 9999-9999");
+          } else if (tipoContato == 'W') { // Whatsapp
+            $(this).siblings('.contato').mask("(99) 9 9999-9999");
+          } else if (tipoContato == 'E') { // E-mail
+            $(this).siblings('.contato').unmask();
+          } else { // Outro tipo de contato
+            $(this).siblings('.contato').unmask();
+          }
         });
+
+      });
+
 
      });
 </script>

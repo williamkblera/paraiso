@@ -34,16 +34,21 @@
             <h2>Clientes</h2>
         </div>
 
+
         <div class="col-md-6">
-            <div class="input-group h2">
-                <input name="data[search]" class="form-control" id="search" type="text" placeholder="Pesquisar Clientes">
-                <span class="input-group-btn">
-                    <button class="btn btn-primary" type="submit">
-                        <span class="glyphicon glyphicon-search"></span>
-                    </button>
-                </span>
-            </div>
+          <form class="navbar-form" method="POST">
+              {% csrf_token %}
+              <div class="input-group h2">
+                    <input name="busca" class="form-control" id="search" type="text" placeholder="Pesquisar Clientes">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+              </div>
+            </form>
         </div>
+
         <div class="col-md-3">
             <a href=" {% url 'clientes:novo_cliente' %}" class="btn btn-primary pull-right h2">
                 Novo Cliente
@@ -58,6 +63,7 @@
                  <thead>
                      <tr>
                          <th>Nome</th>
+                         <th>Contato</th>
                          <th>Tipo</th>
                          <th>Data Cadastro</th>
                          <th class="actions">Ações</th>
@@ -67,6 +73,13 @@
                     <tr>
                     {% for cliente in clientes %}
                         <td>{{cliente}}</td>
+                        <td>
+
+                          {% for contato in cliente.contatos.all %}
+                            <p class="small">{{ contato }}</p>
+                          {% endfor %}
+
+                        </td>
                         <td>{{cliente.get_tipo_pessoa_display}}</td>
                         <td>{{cliente.data_criacao}}</td>
                         <td class="actions">
@@ -85,7 +98,15 @@
      </div> <!-- /#list -->
 
      <div id="bottom" class="row">
-
+       <!-- <div class="col-md-12">
+         <ul class="pagination">
+           <li class="disabled"><a>&lt; Anterior</a></li>
+           <li class="disabled"><a>1</a></li>
+           <li><a>2</a></li>
+           <li><a>3</a></li>
+           <li class="next"><a href="#" rel="next">Próximo &gt;</a></li>
+         </ul>
+       </div> -->
      </div> <!-- /#bottom -->
 
 {% endblock %}

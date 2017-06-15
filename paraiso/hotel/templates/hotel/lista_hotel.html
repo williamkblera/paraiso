@@ -1,52 +1,181 @@
-{% extends 'hotel/base.html' %}
+{% extends 'core/base.html' %}
 {% load staticfiles %}
-
-{% block title %}
-  <title>Pousada Paraíso - Hotel</title>
-{% endblock %}
 
 {% block content %}
 <div class="row">
-  Menu
-</div>
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <h1 class="page-header text-center">
+  <div class="col-md-10">
+    <h2 class="page-header">
       Reservas
-    </h1>
+      <small> de {{dia}} a {{fim}}</small>
+    </h2>
   </div>
-  <div class="col-md-3">
-    <form method="POST" class="post-form">
+  <div class="col-md-2" style="margin-top: 35px;">
+    <form id="formulario" method="POST" class="post-form">
       {% csrf_token %}
-      <div class="form-inline form-group">
-        <input id="data" name="data" type="text" maxlength="10" value="{{dia}}"></input>
-        <button type="submit" class="btn btn-primary pull-right" value="Save">
-          Filtrar
-        </button>
+      <div class="form-inline form-group pull-right">
+          <input id="data" name="data" type="text" maxlength="10" value="{{dia}}"></input>
+          <button type="submit" class="btn btn-primary" value="Save">
+            Mostrar
+          </button>
+        </h3>
       </div>
     </form>
   </div>
-</div>
+</div> <!-- /.row -->
 
 <div class="row">
-  {% for quarto in quartos %}
-    <div class="col-md-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <a href="reserva/{{quarto.reserva.pk}}">
-            <h3 class="panel-title">
-              {{quarto.quarto}}
-              <span class="glyphicon glyphicon-pencil pull-right"></span>
-            </h3>
-          </a>
+  <div class="col-md-1">
+    <h4>Legenda</h4>
+  </div>
+  <div class="col-md-2">
+    <p>
+      <span class="glyphicon glyphicon-stop" style="color:#dff0d8; font-size: 200%;"></span>
+      <small> Reserva Confirmada</small>
+    <p>
+  </div>
+  <div class="col-md-2">
+    <p>
+      <span class="glyphicon glyphicon-stop" style="color:#d9edf7; font-size: 200%;"></span>
+      <small> Apartamento Ocupado</small>
+    <p>
+  </div>
+  <div class="col-md-2">
+    <p>
+      <span class="glyphicon glyphicon-stop" style="color:#fcf8e3; font-size: 200%;"></span>
+      <small> Esperando Confirmação</small>
+    <p>
+  </div>
+  <div class="col-md-2">
+    <p>
+      <span class="glyphicon glyphicon-stop" style="color:#f2dede; font-size: 200%;"></span>
+      <small> Deadline Vencido</small>
+    <p>
+  </div>
+  <div class="col-md-2">
+    <p>
+      <span class="glyphicon glyphicon-stop" style="color:#ff9999; font-size: 200%;"></span>
+      <small> Reserva Cancelada</small>
+    <p>
+  </div>
+</div> <!-- /.row -->
 
-        </div>
-        <div class="panel-body">
-          <p>Cliente: {{quarto.reserva.cliente}}</p>
-          <p>Status : {{quarto.reserva.get_status_display}}</p>
-          <p>Entrada: {{quarto.entrada}}</p>
-        </div>
-      </div>
-    </div>
-  {% endfor %}
+<div class="row">
+  <div class="col-md-12 table-responsive">
+  <table class="table table-hover table-condensed">
+    <thead>
+      <tr>
+        <th rowspan="2">
+          <button id="retroceder" type="button" class="fc-button-prev fc-corner-left btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+          </button>
+        </th>
+        {% for dia in days %}
+            {% if dia|date:"d/m/y" == hoje|date:"d/m/y" %}
+              <th colspan="2" class="bg-primary">{{dia|date:"l, d/m"}}</th>
+            {% else %}
+              <th colspan="2">{{dia|date:"l, d/m"}}</th>
+            {% endif %}
+        {% endfor %}
+        <!-- <th colspan="2" class="bg-primary">Dom, 04/06</th> -->
+        <th rowspan="2">
+          <button id="avancar" type="button" class="fc-button-prev fc-corner-left btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </button>
+        </th>
+      </tr>
+      <tr>
+        {% for dia in days %}
+          {% if dia|date:"d/m/y" == hoje|date:"d/m/y" %}
+            <th class="bg-primary">Manha</th>
+            <th class="bg-primary">Tarde</th>
+          {% else %}
+            <th>Manha</th>
+            <th>Tarde</th>
+          {% endif %}
+        {% endfor %}
+      </tr>
+    </thead>
+
+    <tbody>
+
+        {% for linha in tabela  %}
+          <tr>
+            {% for celula in linha %}
+              {% if forloop.first %}
+                <td colspan="{{celula.turnos}}" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
+                  <h4>{{celula.quarto}}</h4>
+                </td>
+              {% else %}
+                {% if celula.status == "Pré-reserva"%}
+                  <td colspan="{{celula.turnos}}" class="dia esperando" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
+                    {{celula.texto}}
+                  </td>
+                {% elif celula.status == "Confirmada"%}
+                  <td colspan="{{celula.turnos}}" class="dia confirmada" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
+                    {{celula.texto}}
+                  </td>
+                {% elif celula.status == "Ocupado"%}
+                  <td colspan="{{celula.turnos}}" class="dia ocupado" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
+                    {{celula.texto}}
+                  </td>
+                {% elif celula.status == "Cancelada"%}
+                  <td colspan="{{celula.turnos}}" class="dia cancelada" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
+                    {{celula.texto}}
+                  </td>
+                {% elif celula.status == "Deadline vencida"%}
+                  <td colspan="{{celula.turnos}}" class="dia deadline" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
+                    {{celula.texto}}
+                  </td>
+                {% else %}
+                  <td colspan="{{celula.turnos}}" class="dia" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
+                    {{celula.texto}}
+                  </td>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          </tr>
+
+        {% endfor %}
+      </tbody>
+      </table>
+      </div> <!-- /.div table-responsive -->
+      </div> <!-- /.div row -->
+
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+  $(".dia").click(function(env){
+    var msg=$(this).attr('data-date')+"\n"+$(this).attr('ap')+"\n"+$(this).attr('turnos')
+    alert(msg);
+  });
+</script>
+
+<script type="text/javascript">
+  $("#retroceder").click(function(env){
+    $("#data").attr('value', "{{retroceder}}");
+    // alert($("#data").attr('value'));
+    $('#formulario').submit();
+  });
+  $("#avancar").click(function(env){
+    $("#data").attr('value', "{{avancar}}");
+    // alert($("#data").attr('value'));
+    $('#formulario').submit();
+  });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      var date_input=$('input[name="data"]'); //our date input has the name "date"
+      var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+      var options={
+        format: "dd/mm/yyyy",
+        todayHighlight: true,
+        language: "pt-BR",
+        autoclose: true,
+        // todayBtn: true,
+      };
+      date_input.datepicker(options);
+    })
+</script>
 {% endblock %}

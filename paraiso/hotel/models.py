@@ -56,6 +56,7 @@ class Reserva(models.Model):
         ('O', 'Ocupado'),
         ('F', 'Finalizada'),
         ('C', 'Cancelada'),
+        ('D', 'Deadline vencida'),
     )
     cliente = models.ForeignKey(Cliente, related_name="reservas")
     data_reserva = models.DateTimeField(

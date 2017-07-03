@@ -1,4 +1,4 @@
-{% extends 'hotel/base.html' %}
+{% extends 'core/base.html' %}
 {% load staticfiles %}
 
 {% block title %}
@@ -6,9 +6,6 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
-  Menu
-</div>
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <h1 class="page-header text-center">Reserva</h1>
@@ -19,7 +16,7 @@
     <div class="col-md-8 col-md-offset-2">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <a href="#">
+          <a href="{% url 'clientes:cliente' pk=reserva.cliente.pk %}">
             <h3 class="panel-title">
               {{reserva.cliente.nome}}
               <span class="glyphicon glyphicon-pencil pull-right"></span>
@@ -28,13 +25,195 @@
 
         </div>
         <div class="panel-body">
-          <p>Data da Reserva : {{reserva.data_reserva}}</p>
-          <p>Status : {{reserva.get_status_display}}</p>
+          <div class="row">
+            <div class="col-md-4"
+              <p><strong>Data da Reserva : </strong></p>
+              <p>{{reserva.data_reserva}}</p>
+            </div>
+            <div class="col-md-3">
+              <p><strong>Status : </strong>
+              <p>{{reserva.get_status_display}}</p>
+            </div>
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-md-6">
+                  <p><strong>Total</strong></p>
+                </div>
+                <div class="col-md-6">
+                  <p>R$ 1.000,00</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <p><strong>Pago</strong></p>
+                </div>
+                <div class="col-md-6">
+                  <p>R$ 500,00</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <p><strong>Falta</strong></p>
+                </div>
+                <div class="col-md-6">
+                  <p>R$ 500,00</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <p class="lead">
+                <a class="btn btn-primary" href="#" role="button">Editar</a>
+                <a class="btn btn-danger" href="#" role="button">Excluir</a>
+              </p>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-md-12">
+              <a class="btn btn-success" role="button">
+                <span class="gliphicon glyphicon-plus"</span>
+                  apartamento
+              </a>
+            </div>
+          </div>
+
+          <div class="row">
+            &nbsp;
+          </div>
           {% for quarto in quartos %}
-            <p>Apartamento: {{ quarto }}</p>
-            <p>Entrada: {{ quarto.entrada }}</p>
-            <p>Saida: {{ quarto.saida }}</p>
+          <div class="jumbotron">
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <h2 class="display">{{ quarto.quarto }}</h2>
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-md-6">
+                <strong>Entrada: </strong>
+                {{ quarto.entrada }}
+              </div>
+
+              <div class="col-md-6">
+                <strong>Saida: </strong>
+                {{ quarto.saida }}
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <strong>Pagantes: </strong>
+                {{ quarto.qtd_adultos }}
+              </div>
+
+              <div class="col-md-6">
+                <strong>Free: </strong>
+                {{ quarto.qtd_crianca }}
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <strong>Check In: </strong>
+                {{ quarto.checkout }}
+              </div>
+
+              <div class="col-md-6">
+                <strong>Check Out: </strong>
+                {{ quarto.checkout }}
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <h4><strong>Total</strong></h4>
+              </div> <!-- /.div col-md-2 -->
+
+              <div class="col-md-4">
+                <h4><strong>Pago</strong></h4>
+              </div> <!-- /.div col-md-2 -->
+
+              <div class="col-md-4">
+                <h4><strong>Falta Pagar</strong></h4>
+              </div> <!-- /.div col-md-2 -->
+            </div> <!-- /.div row -->
+
+
+            <div class="row">
+              <div class="col-md-4 text-center">
+                <h4>R$ {{ quarto.custo}}</h4>
+              </div> <!-- /.div col-md-2 -->
+
+              <div class="col-md-4 text-center">
+                <h4>R$ 100,00</h4>
+              </div> <!-- /.div col-md-2 -->
+
+              <div class="col-md-4 text-center">
+                <h4>R$ 70,00</h4>
+              </div> <!-- /.div col-md-2 -->
+            </div> <!-- /.div row -->
+
+            <div class="row">
+              <div class="col-md-12">
+                <p class="lead">
+                  <a class="btn btn-success btn-xs" href="#" role="button">
+                    <span class="gliphicon glyphicon-plus"</span>
+                       Pagamento
+                  </a>
+                  <a class="btn btn-primary btn-xs" href="#" role="button">Editar</a>                  
+                  <a class="btn btn-danger btn-xs" href="#" role="button">Excluir</a>
+                </p>
+              </div>
+            </div>
+
+            <div class="row">
+                <div class="table-responsive">
+                  <table class="table table-hover table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>Data do Pagamento</th>
+                        <th>Forma de Pagamento</th>
+                        <th>Valor</th>
+                        <th>Operações</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>10 de Março de 2017</td>
+                        <td>Deposito Bancario - BB</td>
+                        <td>R$ 50,00</td>
+                        <td>
+                          <a class="btn btn-success btn-xs" href="">Visualizar</a>
+                          <a class="btn btn-warning btn-xs" href="">Editar</a>
+                          <a class="btn btn-danger btn-xs" href="">Excluir</a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>15 de Março de 2017</td>
+                        <td>Cartão de Credito - PagSeguro - 3x</td>
+                        <td>R$ 50,00</td>
+                        <td>
+                          <a class="btn btn-success btn-xs" href="">Visualizar</a>
+                          <a class="btn btn-warning btn-xs" href="">Editar</a>
+                          <a class="btn btn-danger btn-xs" href="">Excluir</a>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div> <!-- /.col-md-10 col-md-offset-1 -->
+            </div> <!-- /.row -->
+
+
+
+          </div>
           {% endfor %}
+
+
+
         </div>
       </div>
     </div>

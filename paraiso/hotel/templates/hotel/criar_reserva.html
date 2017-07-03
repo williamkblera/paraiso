@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<h3 class="page-header">Novo Cliente</h3>
+<form method="POST">
+    {% csrf_token %}
+
+    <div class="row">
+        {% for item in forms %}
+            <div class="form-group col-md-6">
+                {{ item.errors }}
+                {{ item.label_tag }}
+                {{ item }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <hr />
+
+    <div id="actions" class="row">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{% url 'hotel:reservas' %}" class="btn btn-default">Cancelar</a>
+        </div>
+    </div>
+  </form>
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

@@ -41,7 +41,7 @@ def deletar_cliente(request, pk):
     cliente.delete()
     return HttpResponseRedirect('/clientes/')
 
-def editar_cliente(request, pk):
+def editar_cliente(request, pk): 
     cliente = get_object_or_404(Cliente, pk=pk)
     contatos = Contato.objects.filter(cliente=cliente)
     documentos = Documento.objects.filter(cliente=cliente)

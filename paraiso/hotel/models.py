@@ -28,6 +28,7 @@ class Quarto(models.Model):
         ('A', 'Ativo'),
         ('S', 'Sujo'),
         ('M', 'Esperando Manutenção'),
+        ('O', 'Ocupado'),
     )
     nome = models.CharField(max_length=100, unique=True)
     tipo = models.ForeignKey(tipo_quarto, related_name="quartos")
@@ -43,9 +44,17 @@ class Quarto(models.Model):
     def __str__(self):
         return self.nome
 
+
+    def PaxTotal(self, **kwargs):
+        "Retorna PAX total do quarto"
+        return ((self.cama_casal*2)+self.cama_solteiro)
+
+
 def calcula_deadline():
     # Soma um dia ao dead line padrão
     return timezone.now()+timezone.timedelta(days=1)
+
+
 
 class Reserva(models.Model):
     STATUS_RESERVA = (
@@ -53,7 +62,6 @@ class Reserva(models.Model):
         ('P', 'Confirmada'),
         ('N', 'No-Show'),
         ('W', 'Walk-in'),
-        ('O', 'Ocupado'),
         ('F', 'Finalizada'),
         ('C', 'Cancelada'),
         ('D', 'Deadline vencida'),
@@ -109,6 +117,37 @@ class ReservaQuarto(models.Model):
 
     def __str__(self):
         return self.quarto.nome + " - " + self.entrada.strftime('%d/%m/%y')
+
+    def set_checkin(self):
+        "Faz check in no quarto"
+
+        # Se apartamento está ativo e livre
+        if self.quarto.status == 'A':
+            # Marca apartamento como Ocupado
+            self.quarto.status = 'O'
+            self.quarto.save()
+
+            # Salva horario de check in
+            self.checkin = timezone.now()
+            self.save()
+            return True
+        else:
+            return False
+
+    def set_checkout(self):
+        "Faz check out no quarto"
+
+        # Se apartamento está Ocupado
+        if self.quarto.status == 'O':
+            # Marca apartamento como Sujo
+            self.quarto.status = 'S'
+            self.quarto.save()
+            # Salva horario de check out
+            self.checkout = timezone.now()
+            self.save()
+            return True
+        else:
+            return False
 
 class ReservaPagamento(models.Model):
     STATUS_PAGAMENTO = (

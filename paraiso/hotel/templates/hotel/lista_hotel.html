@@ -2,6 +2,209 @@
 {% load staticfiles %}
 
 {% block content %}
+
+<!-- Check in Modal -->
+<div class="modal fade" id="checkin-modal" tabindex="-1" role="dialog"
+aria-labelledby="modalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modalLabel">Check in</h4>
+            </div> <!-- /.modal-header -->
+            <div class="modal-body">
+                Deseja relmente fazer check in neste apartamento?
+            </div> <!-- /.modal-body -->
+            <div class="modal-footer">
+                <a href="" type="button" class="btn btn-primary" id="yes_button_checkin">
+                    Sim
+                </a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Não
+                </button>
+            </div> <!-- /.modal-footer -->
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+
+<!-- Check out Modal -->
+<div class="modal fade" id="checkout-modal" tabindex="-1" role="dialog"
+aria-labelledby="modalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modalLabel">Check in</h4>
+            </div> <!-- /.modal-header -->
+            <div class="modal-body">
+                Deseja relmente fazer check out neste apartamento?
+            </div> <!-- /.modal-body -->
+            <div class="modal-footer">
+                <a href="" type="button" class="btn btn-primary" id="yes_button_checkout">
+                    Sim
+                </a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Não
+                </button>
+            </div> <!-- /.modal-footer -->
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+
+<!-- Criar Reserva Modal -->
+<div class="modal fade" id="criar-reserva-modal" tabindex="-1" role="dialog"
+aria-labelledby="modalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modalLabel">Criar Reserva?</h4>
+            </div> <!-- /.modal-header -->
+            <div class="modal-body">
+                Deseja criar uma nova reserva neste apartamento?
+            </div> <!-- /.modal-body -->
+            <div class="modal-footer">
+                <a href="" type="button" class="btn btn-primary" id="yes_button_criar">
+                    Sim
+                </a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Não
+                </button>
+            </div> <!-- /.modal-footer -->
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+
+<!-- Reserva Modal -->
+<div class="modal fade" id="reserva-modal" tabindex="-1" role="dialog"
+aria-labelledby="modalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+              <div class="row">
+                <div class="col-md-4 col-md-offset-1"><strong>Cliente</strong></div>
+                <div class="col-md-4" id="cliente-reserva"></div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 col-md-offset-1"><strong>Reserva</strong></div>
+                <div class="col-md-4" id="reserva-reserva"></div>
+              </div>
+
+            </div> <!-- /.modal-header -->
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-3">
+                  <strong>Apartamento</strong>
+                </div> <!-- /.div col-md-4 -->
+                <div class="col-md-3" id="apartamento-reserva">
+
+                </div> <!-- /.div col-md-4 -->
+              </div> <!-- /.div row -->
+
+              <div class="row">
+                <div class="col-md-3">
+                  <strong>Entrada</strong>
+                </div> <!-- /.div col-md-2 -->
+                <div class="col-md-3" id="entrada-reserva">
+                </div> <!-- /.div col-md-2 -->
+
+
+                <div class="col-md-3">
+                  <strong>Saida</strong>
+                </div> <!-- /.div col-md-2 -->
+                <div class="col-md-3" id="saida-reserva">
+                </div> <!-- /.div col-md-2 -->
+              </div> <!-- /.div row -->
+              <div class="row">
+                <div class="col-md-3">
+                  <strong>Pagantes</strong>
+                </div> <!-- /.div col-md-2 -->
+                <div class="col-md-3" id="adultos-reserva">
+                </div> <!-- /.div col-md-2 -->
+
+
+                <div class="col-md-3">
+                  <strong>Free</strong>
+                </div> <!-- /.div col-md-2 -->
+                <div class="col-md-3" id="free-reserva">
+                </div> <!-- /.div col-md-2 -->
+              </div> <!-- /.div row -->
+
+              <div class="row">
+                <div class="col-md-3">
+                  <strong>Check In</strong>
+                </div> <!-- /.div col-md-2 -->
+                <div class="col-md-3" id="checkin-reserva">
+                </div> <!-- /.div col-md-2 -->
+
+
+                <div class="col-md-3">
+                  <strong>Check Out</strong>
+                </div> <!-- /.div col-md-2 -->
+                <div class="col-md-3" id="checkout-reserva">
+                </div> <!-- /.div col-md-2 -->
+              </div> <!-- /.div row -->
+              <hr />
+              <div class="row">
+                <div class="col-md-4">
+                  <h4><strong>Total</strong></h4>
+                </div> <!-- /.div col-md-2 -->
+
+                <div class="col-md-4">
+                  <h4><strong>Pago</strong></h4>
+                </div> <!-- /.div col-md-2 -->
+
+                <div class="col-md-4">
+                  <h4><strong>Falta Pagar</strong></h4>
+                </div> <!-- /.div col-md-2 -->
+              </div> <!-- /.div row -->
+
+
+              <div class="row">
+                <div class="col-md-4">
+                  <h4 id="total-reserva"></h4>
+                </div> <!-- /.div col-md-2 -->
+
+                <div class="col-md-4">
+                  <h4 id="pago-reserva">R$ 100,00</h4>
+                </div> <!-- /.div col-md-2 -->
+
+                <div class="col-md-4">
+                  <h4 id="restante-reserva"></h4>
+                </div> <!-- /.div col-md-2 -->
+              </div> <!-- /.div row -->
+
+            </div> <!-- /.modal-body -->
+            <div id="reservaFooter"class="modal-footer">
+                <a href="" type="button" class="btn btn-primary" id="yes_button_reserva">
+                    Editar
+                </a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Fechar
+                </button>
+            </div> <!-- /.modal-footer -->
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+
+{% if erro %}
+  <script>
+    // alert('{{erro}}');
+    $('#erro').html('{{erro}}');
+    $('#erro-modal').modal('show');
+
+  </script>
+{% endif %}
+
 <div class="row">
   <div class="col-md-10">
     <h2 class="page-header">
@@ -101,36 +304,53 @@
         {% for linha in tabela  %}
           <tr>
             {% for celula in linha %}
+              <!-- <h1>Teste {{celula.status_ap}}</h1> -->
               {% if forloop.first %}
-                <td colspan="{{celula.turnos}}" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
-                  <h4>{{celula.quarto}}</h4>
+                {% if celula.status == "Esperando Manutenção" %}
+                <td class="cancelada" colspan="{{celula.turnos}}" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
+                {% elif celula.status == "Sujo" %}
+                  <td class="esperando" colspan="{{celula.turnos}}" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
+                {% elif celula.status == "Ocupado" %}
+                  <td class="ocupado" colspan="{{celula.turnos}}" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
+
+                {% else %}
+                  <td colspan="{{celula.turnos}}" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
+                {% endif %}
+                  <a href="{% url 'hotel:apartamento' pk=celula.id %}">
+                    <h4>{{celula.quarto}}</h4>
+                    <p><small>{{celula.status}}</small></p>
+                  </a>
                 </td>
               {% else %}
                 {% if celula.status == "Pré-reserva"%}
-                  <td colspan="{{celula.turnos}}" class="dia esperando" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
-                    {{celula.texto}}
-                  </td>
+                  <td colspan="{{celula.turnos}}" class="esperando" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
+
+                {% elif celula.status == "No-Show"%}
+                  <td colspan="{{celula.turnos}}" class="esperando" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
+
+                {% elif celula.status_ap == "Ocupado"%}
+                  <td colspan="{{celula.turnos}}" class="ocupado" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
+
+                {% elif celula.checkout != None %}
+                  <td colspan="{{celula.turnos}}" class="finalizada" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
+
                 {% elif celula.status == "Confirmada"%}
-                  <td colspan="{{celula.turnos}}" class="dia confirmada" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
-                    {{celula.texto}}
-                  </td>
-                {% elif celula.status == "Ocupado"%}
-                  <td colspan="{{celula.turnos}}" class="dia ocupado" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
-                    {{celula.texto}}
-                  </td>
+                  <td colspan="{{celula.turnos}}" class="confirmada" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
+
                 {% elif celula.status == "Cancelada"%}
-                  <td colspan="{{celula.turnos}}" class="dia cancelada" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
-                    {{celula.texto}}
-                  </td>
+                  <td colspan="{{celula.turnos}}" class="cancelada" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
+
+
+
                 {% elif celula.status == "Deadline vencida"%}
                   <td colspan="{{celula.turnos}}" class="dia deadline" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
-                    {{celula.texto}}
-                  </td>
+
                 {% else %}
                   <td colspan="{{celula.turnos}}" class="dia" data-date="{{celula.data}}" ap="{{celula.ap}}" turnos={{celula.turnos}}>
-                    {{celula.texto}}
-                  </td>
+
                 {% endif %}
+                  {{celula.texto|safe}}
+                </td>
               {% endif %}
             {% endfor %}
           </tr>
@@ -146,8 +366,15 @@
 {% block script %}
 <script type="text/javascript">
   $(".dia").click(function(env){
-    var msg=$(this).attr('data-date')+"\n"+$(this).attr('ap')+"\n"+$(this).attr('turnos')
-    alert(msg);
+    // var msg=$(this).attr('data-date')+"\n"+$(this).attr('ap')+"\n"+$(this).attr('turnos')
+    // alert(msg);
+    var url = 'reserva/criar/?';
+    var data = encodeURIComponent($(this).attr('data-date'));
+    url += 'data='+data;
+    var ap = encodeURIComponent($(this).attr('ap'));
+    url += '&ap='+ap;
+    $('#yes_button_criar').attr("href", url);
+    $('#criar-reserva-modal').modal('show');
   });
 </script>
 
@@ -177,5 +404,73 @@
       };
       date_input.datepicker(options);
     })
+</script>
+
+<script type="text/javascript">
+    $('#checkin-modal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var pk = button.data('whatever');
+        var url = "apartamento/checkin/"+pk+"/";
+
+        $('#yes_button_checkin').attr("href", url);
+    });
+</script>
+
+<script type="text/javascript">
+    $('#checkout-modal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var pk = button.data('whatever');
+        var url = "apartamento/checkout/"+pk+"/";
+
+        $('#yes_button_checkout').attr("href", url);
+    });
+</script>
+
+<script type="text/javascript">
+    $('#reserva-modal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var pk = button.data('whatever');
+        var url = "reserva/apartamento/"+pk+"/";
+
+        var modal = $(this)
+
+        $.ajax({
+          url:'reserva_ajax/',
+          data : {
+            'pk': pk,
+          },
+          dataType: 'json',
+          'success': function(data) {
+
+            var texto = '<a href="/clientes/cliente/'+ data['cliente_pk'] +'">'+data['cliente']+'</a>';
+            $('#cliente-reserva').html(texto);
+
+            var texto = '<a href="/hotel/reserva/'+ data['reserva_pk'] +'">'+data['reserva']+'</a>';
+            $('#reserva-reserva').html(texto);
+
+            $('#apartamento-reserva').text(data['quarto']);
+            $('#entrada-reserva').text(data['entrada']);
+            $('#saida-reserva').text(data['saida']);
+            $('#adultos-reserva').text(data['qtd_adultos']);
+            $('#free-reserva').text(data['qtd_crianca']);
+            $('#checkin-reserva').text(data['checkin']);
+            $('#checkout-reserva').text(data['checkout']);
+            texto = 'R$ ' + data['custo']
+            $('#total-reserva').text(texto);
+            texto = 'R$ ' + data['falta_pagar']
+            $('#restante-reserva').text(texto);
+
+
+          }
+        });
+        // var texto = $('#').text();
+        // alert(
+        //   // $('#reservaTitle').text()
+        // );
+        // $('#reservaTitle').text("Cliente da Silva");
+
+        $('#yes_button_reserva').attr("href", url);
+
+    });
 </script>
 {% endblock %}

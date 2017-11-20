@@ -3,6 +3,9 @@ from django.utils import timezone
 from django.forms.models import inlineformset_factory
 from django.http.response import HttpResponseRedirect
 from django.db.models import Q
+from django.core.urlresolvers import reverse
+from urllib.parse import urlsplit
+
 
 from .models import Cliente, Contato, Documento
 from .forms import ClienteForm, ContatoForm, DocumentoForm
@@ -41,7 +44,7 @@ def deletar_cliente(request, pk):
     cliente.delete()
     return HttpResponseRedirect('/clientes/')
 
-def editar_cliente(request, pk): 
+def editar_cliente(request, pk):
     cliente = get_object_or_404(Cliente, pk=pk)
     contatos = Contato.objects.filter(cliente=cliente)
     documentos = Documento.objects.filter(cliente=cliente)
@@ -118,6 +121,17 @@ def editar_cliente(request, pk):
 
 
 def novo_cliente(request):
+
+    redirect_to = ""
+    if 'next' in request.GET:
+        redirect_to = request.GET['next']
+        url = request.META.get('HTTP_REFERER', None) or '/' # pega url do site
+        next = "{0.scheme}://{0.netloc}/".format(urlsplit(url))+redirect_to
+        print(next)
+        redirect_to = next
+
+
+
     clienteform = Cliente()
     contato_cliente_formset = inlineformset_factory(
         Cliente,
@@ -162,8 +176,12 @@ def novo_cliente(request):
             forms = forms.save(commit=False)
             forms.save()
             formset.save()
-            documentoformset.save()
-            return HttpResponseRedirect('/clientes/')
+            documentoformset.save
+            if redirect_to == "":
+                return HttpResponseRedirect('/clientes/')
+            else:
+                #return redirect(redirect_to)
+                return HttpResponseRedirect('/clientes/')
 
     else:
         forms = ClienteForm(

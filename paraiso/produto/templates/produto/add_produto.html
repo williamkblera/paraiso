@@ -1,0 +1,54 @@
+{% extends "core/base.html" %}
+
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+
+{% block content %}
+    <h3 class="page-header">{{produto}}</h3>
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="row">
+            {% for item in forms %}
+                <div class="form-group col-md-6">
+                    {{ item.errors }}
+                    {{ item.label_tag }}
+                    {{ item }}
+                </div>
+            {% endfor %}
+        </div>
+
+        {{ formset.management_form }}
+
+
+        <hr />
+
+        <div id="actions" class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                
+                <a href="{% url 'produtos:lista_produtos' %}" class="btn btn-default">Cancelar</a>
+            </div>
+        </div>
+    </form>
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+  $(document).ready(function(){
+    var maxLength = '0.000.000,00'.length;
+      $("#id_main-preco").maskMoney({
+        allowNegative: false,
+        prefix:'R$ ',
+        thousands:'.',
+        decimal:',',
+        affixesStay: false
+      }).attr('maxlength', maxLength).trigger('mask.maskMoney');
+  });
+
+
+</script>
+{% endblock %}

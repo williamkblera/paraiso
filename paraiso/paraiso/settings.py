@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'cliente',
     'teste',
     'hotel',
+    'produto',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

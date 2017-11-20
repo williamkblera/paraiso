@@ -1,0 +1,124 @@
+{% extends 'core/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog"
+    aria-labelledby="modalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabel">Excluir {{produto}}</h4>
+                </div> <!-- /.modal-header -->
+                <div class="modal-body">
+                    Deseja relmente excluir este produto?
+                </div> <!-- /.modal-body -->
+                <div class="modal-footer">
+                    <a href="" type="button" class="btn btn-primary" id="yes_button">
+                        Sim
+                    </a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Não
+                    </button>
+                </div> <!-- /.modal-footer -->
+            </div> <!-- /.modal-content -->
+        </div> <!-- /.modal-dialog -->
+    </div> <!-- /.modal -->
+
+    <div id="top" class="row">
+        <div class="col-md-3">
+            <h2>Produtos</h2>
+        </div>
+
+
+        <div class="col-md-6">
+          <form class="navbar-form" method="POST">
+              {% csrf_token %}
+              <div class="input-group h2">
+                    <input name="busca" class="form-control" id="search" type="text" placeholder="Pesquisar Produtos">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+
+              </div>
+            </form>
+        </div>
+
+        <div class="col-md-3">
+            <a href=" {% url 'produtos:novo_produto' %}" class="btn btn-primary pull-right h2">
+                Novo Produto
+            </a>
+        </div>
+     </div> <!-- /#top -->
+
+     <hr />
+     <div id="list" class="row">
+         <div class="table-responsive col-md-12">
+             <table class="table table-striped" cellspacing="0" cellpadding="0">
+                 <thead>
+                     <tr>
+                         <th>Nome</th>
+                         <th>Descrição</th>
+                         <th>Tipo</th>
+                         <th>Preço</th>
+                         <th>Limite por dia</th>
+                         <th>Status</th>
+                         <th class="actions">Ações</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                    <tr>
+                    {% for produto in produtos %}
+                        <td>{{produto}}</td>
+                        <td>{{produto.descricao}}</td>
+                        <td>{{produto.get_tipo_produto_display}}</td>
+                        <td>R$ {{produto.preco}}</td>
+                        <td>{{produto.limite_dia}}</td>
+                        <td>{{produto.get_status_display}}</td>
+                        <td class="actions">
+                            <a class="btn btn-success btn-xs"
+                            href="{% url 'produtos:produto' pk=produto.pk %}">Visualizar</a>
+                            <a class="btn btn-warning btn-xs" href="{% url 'produtos:editar_produto' pk=produto.pk %}">Editar</a>
+                            <a class="btn btn-danger btn-xs" data-toggle="modal"
+                                data-target="#delete-modal" data-pk="{{produto.pk}}">
+                                Excluir
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                 </tbody>
+             </table>
+         </div>
+     </div> <!-- /#list -->
+
+     <div id="bottom" class="row">
+       <!-- <div class="col-md-12">
+         <ul class="pagination">
+           <li class="disabled"><a>&lt; Anterior</a></li>
+           <li class="disabled"><a>1</a></li>
+           <li><a>2</a></li>
+           <li><a>3</a></li>
+           <li class="next"><a href="#" rel="next">Próximo &gt;</a></li>
+         </ul>
+       </div> -->
+     </div> <!-- /#bottom -->
+
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    $('#delete-modal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var pk = button.data('pk');
+        var url = "del/"+pk+"/";
+
+        $('#yes_button').attr("href", url);
+    });
+</script>
+{% endblock %}

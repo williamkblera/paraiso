@@ -28,7 +28,7 @@ class Quarto(models.Model):
         ('A', 'Ativo'),
         ('S', 'Sujo'),
         ('M', 'Esperando Manutenção'),
-        ('O', 'Ocupado'),
+        #('O', 'Ocupado'),
     )
     nome = models.CharField(max_length=100, unique=True)
     tipo = models.ForeignKey(tipo_quarto, related_name="quartos")

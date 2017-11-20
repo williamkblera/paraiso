@@ -17,9 +17,11 @@
     <!-- Latest JQuery -->
     <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static 'js/jquery.maskedinput.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/jquery.maskMoney.min.js' %}" type="text/javascript"></script>
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
 
     <!-- Bootstrap Date-Picker Plugin -->
     <script type="text/javascript" src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
@@ -57,6 +59,14 @@
                   aria-expanded="false">Hotel <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="{% url 'hotel:reservas' %}">Reservas</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                  aria-expanded="false">Produtos & Serviços <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="{% url 'produtos:lista_produtos' %}">Produtos</a></li>
+                  <li><a href="{% url 'produtos:lista_reservas' %}">Reservas de Produtos</a></li>
                 </ul>
               </li>
               <li><a href="#">Perfil</a></li>
@@ -105,6 +115,8 @@
     {% block script %}
 
     {% endblock %}
+    <script src="{% static 'js/diacritics.js' %}"></script>
+    <script src="{% static 'js/bootstrap-dropdown-filter.js' %}"></script>
 
   </body>
 </html>

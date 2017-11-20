@@ -1,0 +1,74 @@
+{% extends 'core/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <!-- Modal -->
+    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog"
+    aria-labelledby="modalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabel">Excluir {{cliente}}</h4>
+                </div> <!-- /.modal-header -->
+                <div class="modal-body">
+                    Deseja relmente excluir este produto?
+                </div> <!-- /.modal-body -->
+                <div class="modal-footer">
+                    <a href="{% url 'produtos:deletar_produto' pk=produto.pk %}" type="button" class="btn btn-primary">
+                        Sim
+                    </a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Não
+                    </button>
+                </div> <!-- /.modal-footer -->
+            </div> <!-- /.modal-content -->
+        </div> <!-- /.modal-dialog -->
+    </div> <!-- /.modal -->
+
+    <h3 class="page-header">{{produto}}</h3>
+    <div class="row">
+        <div class="col-md-3">
+            <p><strong>Tipo:</strong></p>
+            <p>{{ produto.get_tipo_produto_display}}</p>
+        </div>
+        <div class="col-md-9">
+            <p><strong>Descrição</strong></p>
+            <p>{{ produto.descricao }}</p>
+        </div>
+    </div><!-- .row -->
+    <h3 class="page-header">Informações</h3>
+    <div class="row">
+      <div class="col-md-4">
+        <p><strong>Preço</strong></p>
+        <p>R$ {{produto.preco}}</p>
+      </div><!-- .div -->
+      <div class="col-md-4">
+        <p><strong>Limite por dia</strong></p>
+        <p>{{produto.limite_dia}}</p>
+      </div><!-- .div -->
+      <div class="col-md-4">
+        <p><strong>Status</strong></p>
+        <p>{{produto.get_status_display}}</p>
+      </div><!-- .div -->
+
+    </div> <!-- .row -->
+
+    <hr />
+    <div id="actions" class="row">
+        <div class="col-md-12">
+            <a href="{% url 'produtos:lista_produtos' %}" class="btn btn-default">Voltar</a>
+            <a href="{% url 'produtos:editar_produto' pk=produto.pk %}" class="btn btn-primary">
+                Editar
+            </a>
+            <a href="#" class="btn btn-default" data-toggle="modal" data-target="#delete-modal">
+                Excluir
+            </a>
+
+
+        </div>
+    </div>
+
+{% endblock %}

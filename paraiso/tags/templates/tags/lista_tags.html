@@ -1,0 +1,10 @@
+{% extends 'core/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<h1>Tags</h1>
+
+{% for tag in tags %}
+    <p>{{tag}}</p>
+{% endfor %}
+{% endblock %}

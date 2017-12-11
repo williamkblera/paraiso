@@ -3,6 +3,7 @@
 from django.db import models
 from django.utils import timezone
 
+
 class Cliente(models.Model):
     TIPO_PESSOA = (
         ('F', 'Pessoa Fisica'),
@@ -13,6 +14,7 @@ class Cliente(models.Model):
     data_criacao = models.DateTimeField(
         default=timezone.now()
     )
+    
 
     def __str__(self):
         return self.nome

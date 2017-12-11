@@ -5,6 +5,11 @@
 <h1>Tags</h1>
 
 {% for tag in tags %}
-    <p>{{tag}}</p>
+<div class="ui-group-buttons">
+   <a href="#" class="btn btn-primary" role="button">{{ tag }}</a>
+   <div class="or"></div>
+   <a href="#" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-trash"></span></a>
+</div>
 {% endfor %}
+
 {% endblock %}

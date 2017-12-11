@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # PAcotes de terceiros
     'crispy_forms',
     'bootstrap3',
+    'taggit',
 
     # Local apps
     'core',
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+TAGGIT_CASE_INSENSITIVE = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

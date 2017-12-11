@@ -65,6 +65,7 @@
                          <th>Nome</th>
                          <th>Contato</th>
                          <th>Tipo</th>
+                         <th>Tags</th>
                          <th>Data Cadastro</th>
                          <th class="actions">Ações</th>
                      </tr>
@@ -81,6 +82,14 @@
 
                         </td>
                         <td>{{cliente.get_tipo_pessoa_display}}</td>
+                        <td>
+                          {% for tag in cliente.tags.all %}
+                              <a href="#" class="btn btn-primary btn-xs" role="button">
+                                {{ tag }}
+                              </a>
+
+                          {% endfor %}
+                        </td>
                         <td>{{cliente.data_criacao}}</td>
                         <td class="actions">
                             <a class="btn btn-success btn-xs" href="{% url 'clientes:cliente' pk=cliente.pk %}">Visualizar</a>

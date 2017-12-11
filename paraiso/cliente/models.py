@@ -1,6 +1,9 @@
 # -*- coding:utf-8
 
 from django.db import models
+
+from taggit.managers import TaggableManager
+
 from django.utils import timezone
 
 
@@ -14,7 +17,9 @@ class Cliente(models.Model):
     data_criacao = models.DateTimeField(
         default=timezone.now()
     )
-    
+
+    tags = TaggableManager()
+
 
     def __str__(self):
         return self.nome

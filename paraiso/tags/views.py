@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from .models import Tag
+from taggit.models import Tag
 
 def tags(request):
     tags = Tag.objects.all()

@@ -34,11 +34,22 @@
             <p><strong>Tipo:</strong></p>
             <p>{{ cliente.get_tipo_pessoa_display}}</p>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
+          <p><strong>TAGS</strong></p>
+          <p>
+            {% for tag in cliente.tags.all %}
+              <a href="#" class="btn btn-primary btn-xs" role="button">
+                {{ tag }}
+              </a>
+            {% endfor %}
+          </p>
+        </div>
+        <div class="col-md-3">
             <p><strong>Data de Cadastro:</strong></p>
             <p>{{ cliente.data_criacao}}</p>
         </div>
     </div><!-- .row -->
+
     <h3 class="page-header">Contatos</h3>
     <div class="row">
 

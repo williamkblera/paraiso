@@ -90,10 +90,12 @@ def editar_cliente(request, pk):
         )
 
         if forms.is_valid() and formset.is_valid() and documentoformset.is_valid():
-            forms = forms.save(commit=False)
-            forms.save()
+            f = forms.save(commit=False)
+            f.save()
+            forms.save_m2m()
             formset.save()
             documentoformset.save()
+
             return HttpResponseRedirect('/clientes/')
 
     else:
@@ -173,8 +175,9 @@ def novo_cliente(request):
         )
 
         if forms.is_valid() and formset.is_valid() and documentoformset.is_valid():
-            forms = forms.save(commit=False)
-            forms.save()
+            f = forms.save(commit=False)
+            f.save()
+            forms.save_m2m()
             formset.save()
             documentoformset.save
             if redirect_to == "":

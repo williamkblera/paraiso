@@ -31,7 +31,7 @@
 
     <div id="top" class="row">
         <div class="col-md-3">
-            <h2>Clientes</h2>
+            <h2>Selecione um Cliente</h2>
         </div>
 
 
@@ -83,12 +83,7 @@
                         <td>{{cliente.get_tipo_pessoa_display}}</td>
                         <td>{{cliente.data_criacao}}</td>
                         <td class="actions">
-                            <a class="btn btn-success btn-xs" href="{% url 'clientes:cliente' pk=cliente.pk %}">Visualizar</a>
-                            <a class="btn btn-warning btn-xs" href="{% url 'clientes:editar_cliente' pk=cliente.pk  %}">Editar</a>
-                            <a class="btn btn-danger btn-xs" data-toggle="modal"
-                                data-target="#delete-modal" data-whatever="{{cliente.pk}}">
-                                Excluir
-                            </a>
+                            <a class="btn btn-success btn-xs" href="{% url 'clientes:cliente' pk=cliente.pk %}">Criar reserva</a>
                         </td>
                     </tr>
                     {% endfor %}

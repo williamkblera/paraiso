@@ -50,9 +50,8 @@ def nova_reserva(request):
                     Q(contatos__contato__icontains=busca)|
                     Q(documentos__documento__icontains=busca)
             )
-            
-    context = {
 
+    context = {
         'clientes':clientes,
     }
 
